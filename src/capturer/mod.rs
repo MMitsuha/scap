@@ -73,10 +73,16 @@ pub struct Options {
     pub excluded_targets: Option<Vec<Target>>,
 }
 
+enum Status {
+    Stopped,
+    Running,
+}
+
 /// Screen capturer class
 pub struct Capturer {
     engine: engine::Engine,
     rx: mpsc::Receiver<ChannelItem>,
+    status: Status,
 }
 
 #[derive(Debug)]
@@ -108,7 +114,11 @@ impl Capturer {
         let (tx, rx) = mpsc::channel();
         let engine = engine::Engine::new(&options, tx);
 
-        Capturer { engine, rx }
+        Capturer {
+            engine,
+            rx,
+            status: Status::Stopped,
+        }
     }
 
     /// Build a new [Capturer] instance with the provided options
@@ -124,19 +134,33 @@ impl Capturer {
         let (tx, rx) = mpsc::channel();
         let engine = engine::Engine::new(&options, tx);
 
-        Ok(Capturer { engine, rx })
+        Ok(Capturer {
+            engine,
+            rx,
+            status: Status::Stopped,
+        })
     }
 
-    // TODO
-    // Prevent starting capture if already started
     /// Start capturing the frames
     pub fn start_capture(&mut self) {
-        self.engine.start();
+        match self.status {
+            Status::Running => {}
+            Status::Stopped => {
+                self.engine.start();
+                self.status = Status::Running
+            }
+        }
     }
 
     /// Stop the capturer
     pub fn stop_capture(&mut self) {
-        self.engine.stop();
+        match self.status {
+            Status::Running => {
+                self.engine.stop();
+                self.status = Status::Stopped
+            }
+            Status::Stopped => {}
+        }
     }
 
     /// Get the next captured frame
