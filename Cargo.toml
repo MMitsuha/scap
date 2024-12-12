@@ -1,7 +1,7 @@
 [package]
 name = "scap"
 description = "Modern, high-performance screen capture library for Rust. Cross-platform."
-version = "0.0.10"
+version = "0.0.12"
 edition = "2021"
 rust-version = "1.71"
 license = "MIT"
@@ -17,7 +17,7 @@ categories = ["graphics", "multimedia", "multimedia::video"]
 
 [dependencies]
 serde = { version = "1.0.215", features = ["derive"] }
-sysinfo = "0.32.0"
+sysinfo = "0.33"
 
 [target.'cfg(target_os = "windows")'.dependencies]
 windows-capture = "1.4.2"
