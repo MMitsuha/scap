@@ -3,12 +3,12 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct YUVFrame {
     pub display_time: u64,
-    pub width: i32,
-    pub height: i32,
+    pub width: usize,
+    pub height: usize,
     pub luminance_bytes: Vec<u8>,
-    pub luminance_stride: i32,
+    pub luminance_stride: usize,
     pub chrominance_bytes: Vec<u8>,
-    pub chrominance_stride: i32,
+    pub chrominance_stride: usize,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]

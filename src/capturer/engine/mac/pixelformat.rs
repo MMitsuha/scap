@@ -88,12 +88,12 @@ pub unsafe fn create_yuv_frame(sample_buffer: CMSampleBuffer) -> Option<YUVFrame
 
     YUVFrame {
         display_time,
-        width: width as i32,
-        height: height as i32,
+        width: width,
+        height: height,
         luminance_bytes,
-        luminance_stride: luminance_stride as i32,
+        luminance_stride: luminance_stride,
         chrominance_bytes,
-        chrominance_stride: chrominance_stride as i32,
+        chrominance_stride: chrominance_stride,
     }
     .into()
 }
